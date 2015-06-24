@@ -5,12 +5,7 @@ node puppetmaster {
 }
 node /^iscsi\d+$/ {
 
-  class { 'iscsirbdhacluster':
-    authkey_source => 'string',
-    authkey => 'ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoociehai1ohcaemai3eiz3eG7zebeeB7eimai6ooR4toot4eeth6ohv2eiQu1Aegh5bei7xoh3roo7ooz',
-    multicast_address => '239.255.1.0',
-    quorum_members => ['192.168.122.190', '192.168.122.173'],
-  }
+  include iscsirbdhacluster
 
   iscsirbdha { 'target1':
     vip  => '192.168.122.170/24',

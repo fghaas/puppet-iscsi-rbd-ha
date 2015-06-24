@@ -1,7 +1,5 @@
 auth.conf
 environments
 fileserver.conf
-hiera
-hiera.yaml
 puppet.conf
 ssl
