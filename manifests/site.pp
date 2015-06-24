@@ -10,7 +10,6 @@ node /^iscsi\d+$/ {
   }
   yumrepo { 'centos-base':
     mirrorlist => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra',
-    # baseurl => 'http://mirror.centos.org/centos/$releasever/os/$basearch/',
     gpgcheck => 1,
     gpgkey => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7',
     exclude => 'ceph* python-rados* python-rbd* python-cephfs* python-ceph-compat* libcephfs* librados2* librbd1',
@@ -18,7 +17,6 @@ node /^iscsi\d+$/ {
   }
   yumrepo { 'centos-updates':
     mirrorlist => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra',
-    # baseurl=http://mirror.centos.org/centos/$releasever/updates/$basearch/,
     gpgcheck => 1,
     gpgkey => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7',
     exclude => 'ceph* python-rados* python-rbd* python-cephfs* python-ceph-compat* libcephfs* librados2* librbd1',
