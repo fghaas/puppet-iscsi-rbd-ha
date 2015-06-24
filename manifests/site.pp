@@ -48,7 +48,7 @@ node /^iscsi\d+$/ {
   }
   package { 'ceph':
     ensure  => latest,
-    require => [ Yumrepo['centos-base', 'centos-updates', 'ceph', 'ceph-noarch', 'epel'] ]
+    require => [ Yumrepo['centos-base', 'centos-updates', 'ceph', 'ceph-noarch', 'epel'] ],
   }
   class { 'corosync':
     enable_secauth    => true,
@@ -56,10 +56,12 @@ node /^iscsi\d+$/ {
     authkey           => 'ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoociehai1ohcaemai3eiz3eG7zebeeB7eimai6ooR4toot4eeth6ohv2eiQu1Aegh5bei7xoh3roo7ooz',
     multicast_address => '239.255.1.0',
     quorum_members    => ['192.168.122.190', '192.168.122.173'],
+    require => [ Yumrepo['centos-base', 'centos-updates'] ]
   }
   service { 'pacemaker':
     ensure => running,
     require => Class['corosync'],
+    require => [ Yumrepo['centos-base', 'centos-updates'] ]
   }
   cs_property { 'stonith-enabled' :
     value   => 'false',
