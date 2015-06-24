@@ -61,7 +61,6 @@ node /^iscsi\d+$/ {
   service { 'pacemaker':
     ensure => running,
     require => Class['corosync'],
-    require => [ Yumrepo['centos-base', 'centos-updates'] ]
   }
   cs_property { 'stonith-enabled' :
     value   => 'false',
