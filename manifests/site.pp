@@ -50,6 +50,10 @@ node /^iscsi\d+$/ {
     ensure  => latest,
     require => [ Yumrepo['centos-base', 'centos-updates', 'ceph', 'ceph-noarch', 'epel'] ],
   }
+  package { 'targetcli':
+    ensure  => latest,
+    require => [ Yumrepo['centos-base', 'centos-updates'] ],
+  }
   class { 'corosync':
     enable_secauth    => true,
     authkey_source    => 'string',
@@ -73,5 +77,16 @@ node /^iscsi\d+$/ {
     parameters      => { 'ip' => '192.168.122.170', 'cidr_netmask' => '24' },
     operations      => { 'monitor' => { 'interval' => '10s' } },
     require => Service['pacemaker'],
+  }
+  cs_primitive { 'p_target':
+    primitive_class => 'ocf',
+    primitive_type  => 'iSCSITarget',
+    provided_by     => 'heartbeat',
+    parameters      => { 'implementation' => 'lio-t', 'iqn' => 'iqn.2000-01.com.example:target' },
+    operations      => { 'monitor' => { 'interval' => '10s' } },
+    require => Service['pacemaker'],
+  }
+  cs_group { 'g_iscsi':
+    primitives      => [ 'p_target', 'p_vip' ],
   }
 }
