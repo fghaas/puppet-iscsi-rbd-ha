@@ -8,9 +8,6 @@ node /^iscsi\d+$/ {
     matches => ['CentOS-*.repo'],
     recurse => true,
   }
-  #package { 'yum-plugin-priorities':
-  #  ensure => installed,
-  #}
   yumrepo { 'centos-base':
     mirrorlist => 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra',
     # baseurl => 'http://mirror.centos.org/centos/$releasever/os/$basearch/',
@@ -32,18 +29,14 @@ node /^iscsi\d+$/ {
     descr    => 'Ceph packages for $basearch',
     enabled  => 1,
     gpgcheck => 1,
-  #  priority => 2,
     gpgkey   => 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc',
-  #  require  => Package['yum-plugin-priorities'],
   }
   yumrepo { 'ceph-noarch':
     baseurl  => 'http://ceph.com/rpm-firefly/rhel7/noarch',
     descr    => 'Ceph packages for noarch',
     enabled  => 1,
     gpgcheck => 1,
-  #  priority => 2,
     gpgkey   => 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc',
-  #  require  => Package['yum-plugin-priorities'],
   }
   yumrepo { 'epel':
     baseurl  => 'http://download.fedoraproject.org/pub/epel/7/x86_64',
