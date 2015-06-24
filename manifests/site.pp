@@ -86,7 +86,15 @@ node /^iscsi\d+$/ {
     operations      => { 'monitor' => { 'interval' => '10s' } },
     require => Service['pacemaker'],
   }
+  cs_primitive { 'p_lu':
+    primitive_class => 'ocf',
+    primitive_type  => 'iSCSILogicalUnit',
+    provided_by     => 'heartbeat',
+    parameters      => { 'implementation' => 'lio-t', 'target_iqn' => 'iqn.2000-01.com.example:target', 'lun' => 1, 'path' => '/dev/vdb' },
+    operations      => { 'monitor' => { 'interval' => '10s' } },
+    require => Service['pacemaker'],
+  }
   cs_group { 'g_iscsi':
-    primitives      => [ 'p_target', 'p_vip' ],
+    primitives      => [ 'p_target', 'p_lu', 'p_vip' ],
   }
 }
