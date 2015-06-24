@@ -64,6 +64,10 @@ node /^iscsi\d+$/ {
     ensure => running,
     require => Class['corosync'],
   }
+  service { 'target':
+    ensure => running,
+    require => Package['targetcli'],
+  }
   cs_property { 'stonith-enabled' :
     value   => 'false',
     require => Service['pacemaker'],
@@ -82,7 +86,7 @@ node /^iscsi\d+$/ {
     provided_by     => 'heartbeat',
     parameters      => { 'implementation' => 'lio-t', 'iqn' => 'iqn.2000-01.com.example:target' },
     operations      => { 'monitor' => { 'interval' => '10s' } },
-    require => Service['pacemaker'],
+    require         => Service['pacemaker', 'target'],
   }
   cs_primitive { 'p_lu':
     primitive_class => 'ocf',
