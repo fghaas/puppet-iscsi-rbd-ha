@@ -8,3 +8,13 @@ iscsirbdhacluster::multicast_address: 239.255.1.0
 iscsirbdhacluster::quorum_members:
   - 192.168.122.190
   - 192.168.122.173
+
+iscsirbdhacluster::targets:
+  target1:
+    vip: 192.168.122.170/24
+    iqn: iqn.2000-01.com.example:target
+    path: /dev/vdb
+  target2:
+    vip: 192.168.122.171/24
+    iqn: iqn.2000-01.com.example:target2
+    path: /dev/vdc

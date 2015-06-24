@@ -6,18 +6,13 @@ node puppetmaster {
 node /^iscsi\d+$/ {
 
   include iscsirbdhacluster
-
-  iscsirbdha { 'target1':
-    vip  => '192.168.122.170/24',
-    iqn  => 'iqn.2000-01.com.example:target',
-    path => '/dev/vdb',
-  }
 }
 
 class iscsirbdhacluster ($authkey_source,
                           $authkey,
                           $multicast_address,
                           $quorum_members,
+                          $targets,
                           $stonith = false) {
   tidy { '/etc/yum.repos.d':
     matches => ['CentOS-*.repo'],
@@ -86,6 +81,14 @@ class iscsirbdhacluster ($authkey_source,
   cs_property { 'stonith-enabled' :
     value   => $stonith,
     require => Service['pacemaker'],
+  }
+
+  $targets.each |$key, $val| {
+    iscsirbdha { $key:
+      vip  => $val['vip'],
+      iqn  => $val['iqn'],
+      path => $val['path'],
+    }
   }
 }                           
 
