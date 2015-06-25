@@ -83,13 +83,7 @@ class iscsirbdhacluster ($authkey_source,
     require => Service['pacemaker'],
   }
 
-  $targets.each |$key, $val| {
-    iscsirbdha { $key:
-      vip  => $val['vip'],
-      iqn  => $val['iqn'],
-      path => $val['path'],
-    }
-  }
+  create_resources(iscsirbdha, $targets)
 }                           
 
 define iscsirbdha ($vip,
