@@ -98,6 +98,7 @@ define iscsirbdha ($vip,
                    $iblock = 0,
                    $ensure = 'present') {
 
+  # Break the VIP into its IP address and CIDR netmask
   $viparray = split($vip, '/')
   $ipaddr = $viparray[0]
   $netmask = $viparray[1]
