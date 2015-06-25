@@ -95,6 +95,7 @@ define iscsirbdha ($vip,
                    $iqn,
                    $path,
                    $monitor_interval = '10s',
+                   $iblock = 0,
                    $ensure = 'present') {
 
   $viparray = split($vip, '/')
@@ -122,7 +123,7 @@ define iscsirbdha ($vip,
     primitive_class => 'ocf',
     primitive_type  => 'iSCSILogicalUnit',
     provided_by     => 'heartbeat',
-    parameters      => { 'implementation' => 'lio-t', 'target_iqn' => $iqn, 'lun' => 1, 'path' => $path },
+    parameters      => { 'implementation' => 'lio-t', 'target_iqn' => $iqn, 'lun' => 1, 'path' => $path, 'lio_iblock' => $iblock },
     operations      => { 'monitor' => { 'interval' => $monitor_interval } },
     ensure          => $ensure,
   }
