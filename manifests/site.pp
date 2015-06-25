@@ -3,8 +3,8 @@ node puppetmaster {
     ensure => 'running',
   }
 }
-node /^iscsi\d+$/ {
 
+node /^iscsi\d+$/ {
   include iscsirbdhacluster
 }
 
