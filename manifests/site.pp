@@ -18,6 +18,9 @@ class iscsirbdhacluster ($authkey_source,
                           $quorum_members,
                           $targets,
                           $stonith = false) {
+
+  include ceph::profile::client
+
   tidy { '/etc/yum.repos.d':
     matches => ['CentOS-*.repo'],
     recurse => true,
@@ -58,10 +61,6 @@ class iscsirbdhacluster ($authkey_source,
     exclude => 'ceph* python-rados* python-rbd* python-cephfs* python-ceph-compat* libcephfs* librados2* librbd1',
     gpgkey   => 'https://getfedora.org/static/352C64E5.txt',
   }
-  package { 'ceph':
-    ensure  => latest,
-    require => [ Yumrepo['centos-base', 'centos-updates', 'ceph', 'ceph-noarch', 'epel'] ],
-  }
   package { 'targetcli':
     ensure  => latest,
     require => [ Yumrepo['centos-base', 'centos-updates'] ],
@@ -78,6 +77,8 @@ class iscsirbdhacluster ($authkey_source,
     ensure => running,
     require => Class['corosync'],
   }
+
+  Yumrepo['ceph','ceph-noarch'] -> Class['::ceph']
 
   Service['pacemaker'] -> Cs_location<| |>
   Service['pacemaker'] -> Cs_property<| |>
