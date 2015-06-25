@@ -74,13 +74,18 @@ class iscsirbdhacluster ($authkey_source,
     ensure => running,
     require => Class['corosync'],
   }
+
+  Service['pacemaker'] -> Cs_location<| |>
+  Service['pacemaker'] -> Cs_property<| |>
+  Service['pacemaker'] -> Cs_primitive<| |>
+  Service['pacemaker'] -> Cs_group<| |>
+
   service { 'target':
     ensure => running,
     require => Package['targetcli'],
   }
   cs_property { 'stonith-enabled' :
     value   => $stonith,
-    require => Service['pacemaker'],
   }
 
   create_resources(iscsirbdha, $targets)
@@ -102,7 +107,6 @@ define iscsirbdha ($vip,
     provided_by     => 'heartbeat',
     parameters      => { 'ip' => $ipaddr, 'cidr_netmask' => $netmask },
     operations      => { 'monitor' => { 'interval' => $monitor_interval } },
-    require         => Service['pacemaker'],
     ensure          => $ensure,
   }
   cs_primitive { "p_target_${name}":
@@ -111,7 +115,7 @@ define iscsirbdha ($vip,
     provided_by     => 'heartbeat',
     parameters      => { 'implementation' => 'lio-t', 'iqn' => $iqn },
     operations      => { 'monitor' => { 'interval' => $monitor_interval } },
-    require         => Service['pacemaker', 'target'],
+    require         => Service['target'],
     ensure          => $ensure,
   }
   cs_primitive { "p_lu_${name}":
@@ -120,7 +124,6 @@ define iscsirbdha ($vip,
     provided_by     => 'heartbeat',
     parameters      => { 'implementation' => 'lio-t', 'target_iqn' => $iqn, 'lun' => 1, 'path' => $path },
     operations      => { 'monitor' => { 'interval' => $monitor_interval } },
-    require         => Service['pacemaker'],
     ensure          => $ensure,
   }
   cs_group { "g_${name}":
