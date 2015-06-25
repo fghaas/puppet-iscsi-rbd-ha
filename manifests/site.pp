@@ -1,11 +1,15 @@
 node puppetmaster {
-  service { 'puppetmaster':
-    ensure => 'running',
-  }
+  include puppetmaster
 }
 
 node /^iscsi\d+$/ {
   include iscsirbdhacluster
+}
+
+class puppetmaster {
+  service { 'puppetmaster':
+    ensure => 'running',
+  }
 }
 
 class iscsirbdhacluster ($authkey_source,
