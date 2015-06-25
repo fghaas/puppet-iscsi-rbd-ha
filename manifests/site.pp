@@ -85,7 +85,7 @@ class iscsirbdhacluster ($authkey_source,
     require => Package['targetcli'],
   }
   cs_property { 'stonith-enabled' :
-    value   => $stonith,
+    value   => bool2str($stonith),
   }
 
   create_resources(iscsirbdha, $targets)
