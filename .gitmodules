@@ -4,12 +4,12 @@
 [submodule "modules/stdlib"]
 	path = modules/stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib
-[submodule "modules/ceph"]
-	path = modules/ceph
-	url = https://github.com/ceph/puppet-ceph
 [submodule "modules/inifile"]
 	path = modules/inifile
 	url = https://github.com/puppetlabs/puppetlabs-inifile
 [submodule "modules/concat"]
 	path = modules/concat
 	url = https://github.com/puppetlabs/puppetlabs-concat
+[submodule "modules/ceph"]
+	path = modules/ceph
+	url = https://github.com/stackforge/puppet-ceph
