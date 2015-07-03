@@ -21,6 +21,15 @@ class iscsirbdhacluster ($authkey_source,
 
   include ceph::profile::client
 
+  # ceph::repo relies on the availability of
+  # $::operatingsystemmajrelease, which is broken with
+  # centos-release-7-1.1503.el7.centos.2.7. So, make sure we upgrade
+  # centos-release before creating Ceph repos.
+  package { 'centos-release':
+    ensure => latest,
+  }
+  Package['centos-release'] -> Class['ceph::repo']
+
   package { 'targetcli':
     ensure  => latest,
   }
