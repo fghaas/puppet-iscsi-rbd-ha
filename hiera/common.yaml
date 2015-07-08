@@ -34,3 +34,6 @@ ceph::profile::params::client_keys:
   'client.admin':
     secret: 'AQBMGHJTkC8HKhAAJ7NH255wYypgm1oVuV41MA=='
     mode: '0600'
+    cap_mon: 'allow *'
+    cap_osd: 'allow *'
+    cap_mds: 'allow *'
