@@ -62,7 +62,8 @@ class iscsirbdhacluster (
 define iscsirbdha (
   $vip,
   $iqn,
-  $path,
+  $volume,
+  $pool = 'rbd',
   $monitor_interval = '10s',
   $iblock = 0,
   $ensure = 'present'
@@ -104,6 +105,21 @@ define iscsirbdha (
     },
     require         => Service['target'],
   }
+  cs_primitive { "p_rbd_${name}":
+    ensure          => $ensure,
+    primitive_class => 'ocf',
+    primitive_type  => 'rbd',
+    provided_by     => 'ceph',
+    parameters      => {
+      'volume' => $volume,
+      'pool' => $pool,
+    },
+    operations      => {
+      'monitor' => {
+        'interval' => $monitor_interval
+        }
+    },
+  }
   cs_primitive { "p_lu_${name}":
     ensure          => $ensure,
     primitive_class => 'ocf',
@@ -113,7 +129,7 @@ define iscsirbdha (
       'implementation' => 'lio-t',
       'target_iqn' => $iqn,
       'lun' => 1,
-      'path' => $path,
+      'path' => "/dev/rbd/${pool}/${volume}",
       'lio_iblock' => $iblock
     },
     operations      => {
@@ -125,6 +141,7 @@ define iscsirbdha (
   cs_group { "g_${name}":
     ensure          => $ensure,
     primitives      => ["p_target_${name}",
+                        "p_rbd_${name}",
                         "p_lu_${name}",
                         "p_vip_${name}" ],
   }
