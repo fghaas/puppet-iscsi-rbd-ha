@@ -21,10 +21,16 @@ iscsirbdhacluster::targets:
     path: /dev/vdb
     iblock: 1
 
-ceph::profile::params::mon_host: '10.11.12.2:6789, 10.11.12.3:6789'
+ceph::profile::params::release: 'hammer'
+ceph::profile::params::mon_key: 'AQATGHJTUCBqIBAA7M2yafV1xctn1pgr3GcKPg=='
+ceph::profile::params::mon_host: '192.168.122.220, 192.168.122.221, 192.168.122.222'
+ceph::profile::params::mon_initial_members: 'ceph1, ceph2, ceph3'
+ceph::profile::params::osd_pool_default_size: '2'
+ceph::profile::params::osd_pool_default_min_size: '1'
+ceph::profile::params::osds:
+  '/dev/vdb': {}
+
 ceph::profile::params::client_keys:
   'client.admin':
     secret: 'AQBMGHJTkC8HKhAAJ7NH255wYypgm1oVuV41MA=='
     mode: '0600'
-
-ceph::repo::release: 'hammer'
