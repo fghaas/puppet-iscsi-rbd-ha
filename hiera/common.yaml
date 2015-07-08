@@ -37,3 +37,20 @@ ceph::profile::params::client_keys:
     cap_mon: 'allow *'
     cap_osd: 'allow *'
     cap_mds: 'allow *'
+  'client.bootstrap-mds':
+    secret: 'AQCQKZ1Vp74HHRAAfII8EwjFPyAwBU5hRmAm7g=='
+    cap_mon: 'allow profile bootstrap-mds'
+    keyring_path: '/var/lib/ceph/bootstrap-mds/ceph.keyring'
+  'client.bootstrap-osd':
+    secret: 'AQCRKZ1VhLQjFRAALfa5ShExPSjdJyoxjB0GAQ=='
+    cap_mon: 'allow profile bootstrap-osd'
+    keyring_path: '/var/lib/ceph/bootstrap-osd/ceph.keyring'
+  'client.bootstrap-rgw':
+    secret: 'AQCPKZ1VGmwfJBAAXlcEm3bj6rn7G7kHmNJLEw=='
+    cap_mon: 'allow profile bootstrap-rgw'
+    keyring_path: '/var/lib/ceph/bootstrap-rgw/ceph.keyring'
+  'client.rbd':
+    secret: 'AQA4MPZTOGU0ARAAXH9a0fXxVq0X25n2yPREDw=='
+    mode: '0600'
+    cap_mon: 'allow r'
+    cap_osd: 'allow class-read object_prefix rbd_children, allow rwx pool=rbd'
