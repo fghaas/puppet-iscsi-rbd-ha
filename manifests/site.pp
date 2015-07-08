@@ -83,6 +83,7 @@ define iscsirbdha (
   $netmask = $viparray[1]
 
   cs_primitive { "p_vip_${name}":
+    ensure          => $ensure,
     primitive_class => 'ocf',
     primitive_type  => 'IPaddr2',
     provided_by     => 'heartbeat',
@@ -95,9 +96,9 @@ define iscsirbdha (
         'interval' => $monitor_interval,
       }
     },
-    ensure          => $ensure,
   }
   cs_primitive { "p_target_${name}":
+    ensure          => $ensure,
     primitive_class => 'ocf',
     primitive_type  => 'iSCSITarget',
     provided_by     => 'heartbeat',
@@ -111,9 +112,9 @@ define iscsirbdha (
         }
     },
     require         => Service['target'],
-    ensure          => $ensure,
   }
   cs_primitive { "p_lu_${name}":
+    ensure          => $ensure,
     primitive_class => 'ocf',
     primitive_type  => 'iSCSILogicalUnit',
     provided_by     => 'heartbeat',
@@ -129,12 +130,11 @@ define iscsirbdha (
         'interval' => $monitor_interval
         }
     },
-    ensure          => $ensure,
   }
   cs_group { "g_${name}":
+    ensure          => $ensure,
     primitives      => ["p_target_${name}",
                         "p_lu_${name}",
                         "p_vip_${name}" ],
-    ensure          => $ensure,
   }
 }
