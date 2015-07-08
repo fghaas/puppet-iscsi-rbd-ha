@@ -6,8 +6,8 @@ iscsirbdhacluster::authkey: ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoocie
 iscsirbdhacluster::multicast_address: 239.255.1.0
 
 iscsirbdhacluster::quorum_members:
-  - 192.168.122.190
-  - 192.168.122.173
+  - 192.168.122.210
+  - 192.168.122.211
 
 iscsirbdhacluster::targets:
   target1:
