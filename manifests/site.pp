@@ -17,12 +17,14 @@ class puppetmaster {
   }
 }
 
-class iscsirbdhacluster ($authkey_source,
-                          $authkey,
-                          $multicast_address,
-                          $quorum_members,
-                          $targets,
-                          $stonith = false) {
+class iscsirbdhacluster (
+  $authkey_source,
+  $authkey,
+  $multicast_address,
+  $quorum_members,
+  $targets,
+  $stonith = false
+) {
 
   include ceph::profile::client
 
@@ -64,14 +66,16 @@ class iscsirbdhacluster ($authkey_source,
   }
 
   create_resources(iscsirbdha, $targets)
-}                           
+}
 
-define iscsirbdha ($vip,
-                   $iqn,
-                   $path,
-                   $monitor_interval = '10s',
-                   $iblock = 0,
-                   $ensure = 'present') {
+define iscsirbdha (
+  $vip,
+  $iqn,
+  $path,
+  $monitor_interval = '10s',
+  $iblock = 0,
+  $ensure = 'present'
+) {
 
   # Break the VIP into its IP address and CIDR netmask
   $viparray = split($vip, '/')
@@ -82,16 +86,30 @@ define iscsirbdha ($vip,
     primitive_class => 'ocf',
     primitive_type  => 'IPaddr2',
     provided_by     => 'heartbeat',
-    parameters      => { 'ip' => $ipaddr, 'cidr_netmask' => $netmask },
-    operations      => { 'monitor' => { 'interval' => $monitor_interval } },
+    parameters      => {
+      'ip' => $ipaddr,
+      'cidr_netmask' => $netmask,
+    },
+    operations      => {
+      'monitor' => {
+        'interval' => $monitor_interval,
+      }
+    },
     ensure          => $ensure,
   }
   cs_primitive { "p_target_${name}":
     primitive_class => 'ocf',
     primitive_type  => 'iSCSITarget',
     provided_by     => 'heartbeat',
-    parameters      => { 'implementation' => 'lio-t', 'iqn' => $iqn },
-    operations      => { 'monitor' => { 'interval' => $monitor_interval } },
+    parameters      => {
+      'implementation' => 'lio-t',
+      'iqn' => $iqn
+    },
+    operations      => {
+      'monitor' => {
+        'interval' => $monitor_interval
+        }
+    },
     require         => Service['target'],
     ensure          => $ensure,
   }
@@ -99,15 +117,24 @@ define iscsirbdha ($vip,
     primitive_class => 'ocf',
     primitive_type  => 'iSCSILogicalUnit',
     provided_by     => 'heartbeat',
-    parameters      => { 'implementation' => 'lio-t', 'target_iqn' => $iqn, 'lun' => 1, 'path' => $path, 'lio_iblock' => $iblock },
-    operations      => { 'monitor' => { 'interval' => $monitor_interval } },
+    parameters      => {
+      'implementation' => 'lio-t',
+      'target_iqn' => $iqn,
+      'lun' => 1,
+      'path' => $path,
+      'lio_iblock' => $iblock
+    },
+    operations      => {
+      'monitor' => {
+        'interval' => $monitor_interval
+        }
+    },
     ensure          => $ensure,
   }
   cs_group { "g_${name}":
-    primitives      => [ "p_target_${name}",
-                         "p_lu_${name}",
-                         "p_vip_${name}" ],
+    primitives      => ["p_target_${name}",
+                        "p_lu_${name}",
+                        "p_vip_${name}" ],
     ensure          => $ensure,
   }
-
 }
