@@ -37,5 +37,18 @@ class iscsirbdha (
     value   => bool2str($stonith),
   }
 
+  file { 'resource-agent-directory':
+    ensure => directory,
+    path => '/usr/lib/ocf/resource.d/ceph',
+    mode => '0755',
+  }
+
+  file { 'rbd-resource-agent':
+    ensure => present,
+    path => '/usr/lib/ocf/resource.d/ceph/rbd',
+    mode => '0755',
+    source => 'puppet:///modules/iscsirbdha/rbd',
+    require => File['resource-agent-directory'],
+  }
   create_resources(iscsirbdha::config, $targets)
 }
