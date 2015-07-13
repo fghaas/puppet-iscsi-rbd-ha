@@ -5,6 +5,7 @@ define iscsirbdha::config (
   $pool = 'rbd',
   $monitor_interval = '10s',
   $iblock = 0,
+  $port = 3260,
   $ensure = 'present'
 ) {
 
@@ -35,14 +36,16 @@ define iscsirbdha::config (
     provided_by     => 'heartbeat',
     parameters      => {
       'implementation' => 'lio-t',
-      'iqn' => $iqn
+      'iqn' => $iqn,
+      'portals' => "${ipaddr}:${port}",
     },
     operations      => {
       'monitor' => {
         'interval' => $monitor_interval
         }
     },
-    require         => Service['target'],
+    require         => [Service['target'],
+                        Cs_primitive["p_vip_${name}"]]
   }
   cs_primitive { "p_rbd_${name}":
     ensure          => $ensure,
@@ -79,9 +82,9 @@ define iscsirbdha::config (
   }
   cs_group { "g_${name}":
     ensure          => $ensure,
-    primitives      => ["p_target_${name}",
+    primitives      => ["p_vip_${name}",
+                        "p_target_${name}",
                         "p_rbd_${name}",
-                        "p_lu_${name}",
-                        "p_vip_${name}" ],
+                        "p_lu_${name}",],
   }
 }
