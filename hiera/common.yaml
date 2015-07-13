@@ -1,15 +1,15 @@
 ---
-iscsirbdhacluster::authkey_source: string
+iscsirbdha::authkey_source: string
 
-iscsirbdhacluster::authkey: ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoociehai1ohcaemai3eiz3eG7zebeeB7eimai6ooR4toot4eeth6ohv2eiQu1Aegh5bei7xoh3roo7ooz
+iscsirbdha::authkey: ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoociehai1ohcaemai3eiz3eG7zebeeB7eimai6ooR4toot4eeth6ohv2eiQu1Aegh5bei7xoh3roo7ooz
 
-iscsirbdhacluster::multicast_address: 239.255.1.0
+iscsirbdha::multicast_address: 239.255.1.0
 
-iscsirbdhacluster::quorum_members:
+iscsirbdha::quorum_members:
   - 192.168.122.210
   - 192.168.122.211
 
-iscsirbdhacluster::targets:
+iscsirbdha::targets:
   target1:
     vip: 192.168.122.170/24
     iqn: iqn.2000-01.com.example:target1
