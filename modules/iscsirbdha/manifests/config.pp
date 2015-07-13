@@ -50,7 +50,7 @@ define iscsirbdha::config (
     primitive_type  => 'rbd',
     provided_by     => 'ceph',
     parameters      => {
-      'volume' => $volume,
+      'name' => $volume,
       'pool' => $pool,
     },
     operations      => {
