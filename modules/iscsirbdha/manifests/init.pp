@@ -48,7 +48,8 @@ class iscsirbdha (
     path => '/usr/lib/ocf/resource.d/ceph/rbd',
     mode => '0755',
     source => 'puppet:///modules/iscsirbdha/rbd',
-    require => File['resource-agent-directory'],
+    require => [File['resource-agent-directory'],
+                Class['ceph::profile::client']],
   }
   create_resources(iscsirbdha::config, $targets)
 }
