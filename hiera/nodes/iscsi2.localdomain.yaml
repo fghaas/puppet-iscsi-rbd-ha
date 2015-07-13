@@ -1,0 +1,35 @@
+---
+iscsirbdha::authkey_source: string
+
+iscsirbdha::authkey: ahNeiteizohSeiGhoh6reene9Zeinge1chie1Sienee0Ohpoociehai1ohcaemai3eiz3eG7zebeeB7eimai6ooR4toot4eeth6ohv2eiQu1Aegh5bei7xoh3roo7ooz
+
+iscsirbdha::multicast_address: 239.255.1.0
+
+iscsirbdha::quorum_members:
+  - 192.168.122.210
+  - 192.168.122.211
+
+iscsirbdha::targets:
+  target1:
+    vip: 192.168.122.170/24
+    iqn: iqn.2000-01.com.example:target1
+    volume: volume1
+    iblock: 0
+  target2:
+    vip: 192.168.122.171/24
+    iqn: iqn.2000-01.com.example:target2
+    volume: volume2
+    iblock: 1
+
+ceph::profile::params::client_keys:
+  'client.admin':
+    secret: 'AQBMGHJTkC8HKhAAJ7NH255wYypgm1oVuV41MA=='
+    mode: '0600'
+    cap_mon: 'allow *'
+    cap_osd: 'allow *'
+    cap_mds: 'allow *'
+  'client.rbd':
+    secret: 'AQA4MPZTOGU0ARAAXH9a0fXxVq0X25n2yPREDw=='
+    mode: '0600'
+    cap_mon: 'allow r'
+    cap_osd: 'allow class-read object_prefix rbd_children, allow rwx pool=rbd'

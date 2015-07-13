@@ -3,5 +3,5 @@
 :yaml:
   :datadir: /etc/puppet/hiera
 :hierarchy:
-  - "nodes/%{::certname}"
+  - "nodes/%{::fqdn}"
   - common
