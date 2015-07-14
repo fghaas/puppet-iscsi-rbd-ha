@@ -16,12 +16,13 @@ define iscsirbdha::config (
     iqn => $iqn,
     monitor_interval => $monitor_interval,
   }
-  iscsirbdha::rbdluresourcegroup { $name:
+  iscsirbdha::rbdluresourcegroup { "${pool}_${volume}":
     ensure => $ensure,
     iqn => $iqn,
     volume => $volume,
     pool => $pool,
     iblock => $iblock,
+    target_name => $name,
     monitor_interval => $monitor_interval,
   }
 }

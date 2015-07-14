@@ -2,6 +2,7 @@ define iscsirbdha::rbdluresourcegroup (
   $volume = $name,
   $pool = 'rbd',
   $iqn,
+  $target_name,
   $iblock = 0,
   $ensure = 'present',
   $monitor_interval = '10s'
@@ -25,5 +26,17 @@ define iscsirbdha::rbdluresourcegroup (
     ensure          => $ensure,
     primitives      => ["p_rbd_${pool}_${volume}",
                         "p_lu_${pool}_${volume}",],
+  }
+  cs_order { "o_${target_name}_before_${pool}_${volume}":
+    first   => "g_${target_name}",
+    second  => "g_${pool}_${volume}",
+    require => Cs_group["g_${target_name}",
+                        "g_${pool}_${volume}"],
+  }
+  cs_colocation { "c_${pool}_${volume}_on_${target_name}":
+    primitives => [ "g_${target_name}",
+                    "g_${pool}_${volume}" ],
+    require => Cs_group["g_${target_name}",
+                        "g_${pool}_${volume}"],
   }
 }
