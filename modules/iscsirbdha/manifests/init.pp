@@ -46,7 +46,7 @@ class iscsirbdha (
     },
     require => Package['targetcli'],
   }
-  cs_clone { 'cl_target_service' :
+  cs_clone { 'p_target_service-clone':
     ensure    => $ensure,
     primitive => 'p_target_service',
     require   => Cs_primitive['p_target_service'],
