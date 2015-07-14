@@ -25,6 +25,8 @@ class iscsirbdha (
   }
 
   Service['pacemaker'] -> Cs_location<| |>
+  Service['pacemaker'] -> Cs_colocation<| |>
+  Service['pacemaker'] -> Cs_order<| |>
   Service['pacemaker'] -> Cs_property<| |>
   Service['pacemaker'] -> Cs_primitive<| |>
   Service['pacemaker'] -> Cs_group<| |>
