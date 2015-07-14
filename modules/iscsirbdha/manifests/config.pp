@@ -53,23 +53,13 @@ define iscsirbdha::config (
     pool => $pool,
     monitor_interval => $monitor_interval,
   }
-  cs_primitive { "p_lu_${name}":
-    ensure          => $ensure,
-    primitive_class => 'ocf',
-    primitive_type  => 'iSCSILogicalUnit',
-    provided_by     => 'heartbeat',
-    parameters      => {
-      'implementation' => 'lio-t',
-      'target_iqn' => $iqn,
-      'lun' => 1,
-      'path' => "/dev/rbd/${pool}/${volume}",
-      'lio_iblock' => $iblock
-    },
-    operations      => {
-      'monitor' => {
-        'interval' => $monitor_interval
-        }
-    },
+  luresource { "${pool}/${volume}":
+    ensure => $ensure,
+    iqn => $iqn,
+    volume => $volume,
+    pool => $pool,
+    iblock => $iblock,
+    monitor_interval => $monitor_interval,
   }
   cs_group { "g_${name}":
     ensure          => $ensure,
