@@ -29,23 +29,11 @@ define iscsirbdha::config (
       }
     },
   }
-  cs_primitive { "p_target_${name}":
-    ensure          => $ensure,
-    primitive_class => 'ocf',
-    primitive_type  => 'iSCSITarget',
-    provided_by     => 'heartbeat',
-    parameters      => {
-      'implementation' => 'lio-t',
-      'iqn' => $iqn,
-      'portals' => "${ipaddr}:${port}",
-    },
-    operations      => {
-      'monitor' => {
-        'interval' => $monitor_interval
-        }
-    },
-    require         => [Service['target'],
-                        Cs_primitive["p_vip_${name}"]]
+  iscsirbdha::targetresource { $name:
+    iqn => $iqn,
+    ensure => $ensure,
+    monitor_interval => $monitor_interval,
+    portals => "${ipaddr}:${port}",
   }
   rbdresource { "${pool}/${volume}":
     ensure => $ensure,
