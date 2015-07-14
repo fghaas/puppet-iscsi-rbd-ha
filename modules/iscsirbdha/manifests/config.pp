@@ -26,25 +26,12 @@ define iscsirbdha::config (
     monitor_interval => $monitor_interval,
     portals => "${ipaddr}:${port}",
   }
-  rbdresource { "${pool}/${volume}":
-    ensure => $ensure,
-    volume => $volume,
-    pool => $pool,
-    monitor_interval => $monitor_interval,
-  }
-  luresource { "${pool}/${volume}":
+  iscsirbdha::rbdluresourcegroup { $name:
     ensure => $ensure,
     iqn => $iqn,
     volume => $volume,
     pool => $pool,
     iblock => $iblock,
     monitor_interval => $monitor_interval,
-  }
-  cs_group { "g_${name}":
-    ensure          => $ensure,
-    primitives      => ["p_vip_${name}",
-                        "p_target_${name}",
-                        "p_rbd_${pool}_${name}",
-                        "p_lu_${pool}_${name}",],
   }
 }
