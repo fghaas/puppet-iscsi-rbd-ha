@@ -4,7 +4,7 @@ define iscsirbdha::rbdresource (
   $ensure = 'present',
   $monitor_interval = '10s'
 ) {
-  cs_primitive { "p_rbd_${name}":
+  cs_primitive { "p_rbd_${pool}_${volume}":
     ensure          => $ensure,
     primitive_class => 'ocf',
     primitive_type  => 'rbd',
