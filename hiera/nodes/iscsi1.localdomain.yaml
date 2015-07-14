@@ -9,6 +9,8 @@ iscsirbdha::quorum_members:
   - 192.168.122.210
   - 192.168.122.211
 
+iscsirbdha::no_quorum_policy: ignore
+
 iscsirbdha::targets:
   target1:
     vip: 192.168.122.170/24

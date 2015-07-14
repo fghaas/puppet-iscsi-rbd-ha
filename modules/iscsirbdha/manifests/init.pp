@@ -4,7 +4,8 @@ class iscsirbdha (
   $multicast_address,
   $quorum_members,
   $targets,
-  $stonith = false
+  $stonith = false,
+  $no_quorum_policy = 'stop',
 ) {
 
   include ceph::profile::client
@@ -33,6 +34,10 @@ class iscsirbdha (
 
   cs_property { 'stonith-enabled' :
     value   => bool2str($stonith),
+  }
+
+  cs_property { 'no-quorum-policy' :
+    value   => $no_quorum_policy,
   }
 
   cs_primitive { 'p_target_service':
