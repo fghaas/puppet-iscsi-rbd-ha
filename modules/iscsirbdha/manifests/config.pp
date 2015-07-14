@@ -1,10 +1,8 @@
 define iscsirbdha::config (
   $vip,
   $iqn,
-  $volume,
-  $pool = 'rbd',
+  $volumes = {},
   $monitor_interval = '10s',
-  $iblock = 0,
   $port = 3260,
   $ensure = 'present'
 ) {
@@ -16,13 +14,13 @@ define iscsirbdha::config (
     iqn => $iqn,
     monitor_interval => $monitor_interval,
   }
-  iscsirbdha::rbdluresourcegroup { "${pool}_${volume}":
-    ensure => $ensure,
+
+  $lu_defaults = {
     iqn => $iqn,
-    volume => $volume,
-    pool => $pool,
-    iblock => $iblock,
+    ensure => $ensure,
     target_name => $name,
     monitor_interval => $monitor_interval,
   }
+
+  create_resources('iscsirbdha::rbdluresourcegroup', $volumes, $lu_defaults)
 }

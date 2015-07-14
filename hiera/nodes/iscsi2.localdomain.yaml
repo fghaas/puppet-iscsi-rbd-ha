@@ -13,13 +13,16 @@ iscsirbdha::targets:
   target1:
     vip: 192.168.122.170/24
     iqn: iqn.2000-01.com.example:target1
-    volume: volume1
-    iblock: 0
+    volumes:
+      rbd_volume1:
+        volume: volume1
+        iblock: 0
+      rbd_volume2:
+        volume: volume2
+        iblock: 1
   target2:
     vip: 192.168.122.171/24
     iqn: iqn.2000-01.com.example:target2
-    volume: volume2
-    iblock: 1
 
 ceph::profile::params::client_keys:
   'client.admin':

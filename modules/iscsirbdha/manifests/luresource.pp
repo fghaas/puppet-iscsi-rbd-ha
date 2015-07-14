@@ -14,7 +14,7 @@ define iscsirbdha::luresource (
     parameters      => {
       'implementation' => 'lio-t',
       'target_iqn' => $iqn,
-      'lun' => 1,
+      'lun' => $iblock,
       'path' => "/dev/rbd/${pool}/${volume}",
       'lio_iblock' => $iblock
     },
