@@ -47,20 +47,11 @@ define iscsirbdha::config (
     require         => [Service['target'],
                         Cs_primitive["p_vip_${name}"]]
   }
-  cs_primitive { "p_rbd_${name}":
-    ensure          => $ensure,
-    primitive_class => 'ocf',
-    primitive_type  => 'rbd',
-    provided_by     => 'ceph',
-    parameters      => {
-      'name' => $volume,
-      'pool' => $pool,
-    },
-    operations      => {
-      'monitor' => {
-        'interval' => $monitor_interval
-        }
-    },
+  rbdresource { "${pool}/${volume}":
+    ensure => $ensure,
+    volume => $volume,
+    pool => $pool,
+    monitor_interval => $monitor_interval,
   }
   cs_primitive { "p_lu_${name}":
     ensure          => $ensure,
