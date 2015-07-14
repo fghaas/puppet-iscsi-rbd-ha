@@ -20,6 +20,5 @@ define iscsirbdha::targetresource (
         'interval' => $monitor_interval
         }
     },
-    require         => [Service['target']]
   }
 }

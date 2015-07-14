@@ -31,12 +31,25 @@ class iscsirbdha (
   Service['pacemaker'] -> Cs_primitive<| |>
   Service['pacemaker'] -> Cs_group<| |>
 
-  service { 'target':
-    ensure => running,
-    require => Package['targetcli'],
-  }
   cs_property { 'stonith-enabled' :
     value   => bool2str($stonith),
+  }
+
+  cs_primitive { 'p_target_service':
+    ensure          => $ensure,
+    primitive_class => 'systemd',
+    primitive_type  => 'target',
+    operations      => {
+      'monitor' => {
+        'interval' => '10s',
+      }
+    },
+    require => Package['targetcli'],
+  }
+  cs_clone { 'cl_target_service' :
+    ensure    => $ensure,
+    primitive => 'p_target_service',
+    require   => Cs_primitive['p_target_service'],
   }
 
   file { 'resource-agent-directory':
