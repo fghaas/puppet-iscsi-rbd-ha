@@ -2,7 +2,7 @@ define iscsirbdha::luresource (
   $volume = $name,
   $pool = 'rbd',
   $iqn,
-  $iblock,
+  $lun = 0,
   $monitor_interval = '10s',
   $ensure = 'present'
 ) {
@@ -14,9 +14,8 @@ define iscsirbdha::luresource (
     parameters      => {
       'implementation' => 'lio-t',
       'target_iqn' => $iqn,
-      'lun' => $iblock,
+      'lun' => $lun,
       'path' => "/dev/rbd/${pool}/${volume}",
-      'lio_iblock' => $iblock
     },
     operations      => {
       'monitor' => {

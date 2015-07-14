@@ -3,7 +3,7 @@ define iscsirbdha::rbdluresourcegroup (
   $pool = 'rbd',
   $iqn,
   $target_name,
-  $iblock = 0,
+  $lun = 0,
   $ensure = 'present',
   $monitor_interval = '10s'
 ) {
@@ -18,7 +18,7 @@ define iscsirbdha::rbdluresourcegroup (
     iqn => $iqn,
     volume => $volume,
     pool => $pool,
-    iblock => $iblock,
+    lun => $lun,
     monitor_interval => $monitor_interval,
     require => Iscsirbdha::Rbdresource["${pool}/${volume}"],
   }
