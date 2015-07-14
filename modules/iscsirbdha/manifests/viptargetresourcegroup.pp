@@ -35,9 +35,9 @@ define iscsirbdha::viptargetresourcegroup (
                 Cs_group["g_${name}"],],
   }
   cs_colocation { "c_${name}_on_target_service":
-    primitives => [ 'p_target_service-clone',
-                    "g_${name}" ],
-    require => [Cs_clone['p_target_service-clone'],
-                Cs_group["g_${name}"],],
+    primitives => [ "g_${name}",
+                    'p_target_service-clone',],
+    require => [Cs_group["g_${name}"],
+                Cs_clone['p_target_service-clone'],],
   }
 }

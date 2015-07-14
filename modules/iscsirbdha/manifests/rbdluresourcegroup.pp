@@ -34,9 +34,9 @@ define iscsirbdha::rbdluresourcegroup (
                         "g_${pool}_${volume}"],
   }
   cs_colocation { "c_${pool}_${volume}_on_${target_name}":
-    primitives => [ "g_${target_name}",
-                    "g_${pool}_${volume}" ],
-    require => Cs_group["g_${target_name}",
-                        "g_${pool}_${volume}"],
+    primitives => [ "g_${pool}_${volume}",
+                    "g_${target_name}",],
+    require => Cs_group["g_${pool}_${volume}",
+                        "g_${target_name}"],
   }
 }
