@@ -18,5 +18,6 @@ define iscsirbdha::rbdresource (
         'interval' => $monitor_interval
       }
     },
+    require => File['rbd-resource-agent'],
   }
 }
