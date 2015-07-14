@@ -23,6 +23,7 @@ iscsirbdha::targets:
   target2:
     vip: 192.168.122.171/24
     iqn: iqn.2000-01.com.example:target2
+    ensure: absent
 
 ceph::profile::params::client_keys:
   'client.admin':

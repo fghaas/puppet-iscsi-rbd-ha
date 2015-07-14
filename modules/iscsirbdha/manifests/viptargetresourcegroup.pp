@@ -29,12 +29,14 @@ define iscsirbdha::viptargetresourcegroup (
                         "p_target_${name}",],
   }
   cs_order { "o_target_service_before_${name}":
+    ensure => $ensure,
     first   => 'p_target_service-clone',
     second  => "g_${name}",
     require => [Cs_clone['p_target_service-clone'],
                 Cs_group["g_${name}"],],
   }
   cs_colocation { "c_${name}_on_target_service":
+    ensure => $ensure,
     primitives => [ "g_${name}",
                     'p_target_service-clone',],
     require => [Cs_group["g_${name}"],

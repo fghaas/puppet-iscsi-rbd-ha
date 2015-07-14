@@ -28,12 +28,14 @@ define iscsirbdha::rbdluresourcegroup (
                         "p_lu_${pool}_${volume}",],
   }
   cs_order { "o_${target_name}_before_${pool}_${volume}":
+    ensure => $ensure,
     first   => "g_${target_name}",
     second  => "g_${pool}_${volume}",
     require => Cs_group["g_${target_name}",
                         "g_${pool}_${volume}"],
   }
   cs_colocation { "c_${pool}_${volume}_on_${target_name}":
+    ensure => $ensure,
     primitives => [ "g_${pool}_${volume}",
                     "g_${target_name}",],
     require => Cs_group["g_${pool}_${volume}",
