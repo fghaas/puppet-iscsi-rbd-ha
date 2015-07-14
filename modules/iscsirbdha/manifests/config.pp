@@ -66,6 +66,6 @@ define iscsirbdha::config (
     primitives      => ["p_vip_${name}",
                         "p_target_${name}",
                         "p_rbd_${pool}_${name}",
-                        "p_lu_${name}",],
+                        "p_lu_${pool}_${name}",],
   }
 }

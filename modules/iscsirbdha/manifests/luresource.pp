@@ -6,7 +6,7 @@ define iscsirbdha::luresource (
   $monitor_interval = '10s',
   $ensure = 'present'
 ) {
-  cs_primitive { "p_lu_${name}":
+  cs_primitive { "p_lu_${pool}_${volume}":
     ensure          => $ensure,
     primitive_class => 'ocf',
     primitive_type  => 'iSCSILogicalUnit',
