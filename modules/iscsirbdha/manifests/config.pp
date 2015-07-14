@@ -1,5 +1,5 @@
 define iscsirbdha::config (
-  $vip,
+  $vip = undef,
   $iqn,
   $volumes = {},
   $monitor_interval = '10s',
