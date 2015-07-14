@@ -9,22 +9,12 @@ define iscsirbdha::config (
   $ensure = 'present'
 ) {
 
-  # Break the VIP into its IP address and CIDR netmask
-  $viparray = split($vip, '/')
-  $ipaddr = $viparray[0]
-  $netmask = $viparray[1]
-
-  iscsirbdha::vipresource { $name:
+  iscsirbdha::viptargetresourcegroup { $name:
     ensure => $ensure,
-    ipaddr => $ipaddr,
-    netmask => $netmask,
-    monitor_interval => $monitor_interval,
-  }
-  iscsirbdha::targetresource { $name:
+    vip => $vip,
+    port => $port,
     iqn => $iqn,
-    ensure => $ensure,
     monitor_interval => $monitor_interval,
-    portals => "${ipaddr}:${port}",
   }
   iscsirbdha::rbdluresourcegroup { $name:
     ensure => $ensure,
