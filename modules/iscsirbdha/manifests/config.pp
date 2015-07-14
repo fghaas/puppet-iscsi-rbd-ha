@@ -14,20 +14,11 @@ define iscsirbdha::config (
   $ipaddr = $viparray[0]
   $netmask = $viparray[1]
 
-  cs_primitive { "p_vip_${name}":
-    ensure          => $ensure,
-    primitive_class => 'ocf',
-    primitive_type  => 'IPaddr2',
-    provided_by     => 'heartbeat',
-    parameters      => {
-      'ip' => $ipaddr,
-      'cidr_netmask' => $netmask,
-    },
-    operations      => {
-      'monitor' => {
-        'interval' => $monitor_interval,
-      }
-    },
+  iscsirbdha::vipresource { $name:
+    ensure => $ensure,
+    ipaddr => $ipaddr,
+    netmask => $netmask,
+    monitor_interval => $monitor_interval,
   }
   iscsirbdha::targetresource { $name:
     iqn => $iqn,
