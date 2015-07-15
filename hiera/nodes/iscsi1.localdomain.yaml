@@ -13,15 +13,18 @@ iscsirbdha::no_quorum_policy: ignore
 
 iscsirbdha::targets:
   target1:
+    vip: 192.168.122.209
     iqn: iqn.2000-01.com.example:target1
     volumes:
       rbd_volume1:
         volume: volume1
-  target2:
-    iqn: iqn.2000-01.com.example:target2
-    volumes:
+        lun: 0
       rbd_volume2:
         volume: volume2
+        lun: 1
+  target2:
+    vip: 192.168.122.208
+    iqn: iqn.2000-01.com.example:target2
 
 ceph::profile::params::client_keys:
   'client.admin':
