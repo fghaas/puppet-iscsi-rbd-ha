@@ -36,9 +36,16 @@ define iscsirbdha::viptargetresourcegroup (
       ensure => $ensure,
       monitor_interval => $monitor_interval,
     }
+    cs_primitive { "p_dummy_${name}":
+      ensure          => $ensure,
+      primitive_class => 'ocf',
+      primitive_type  => 'Dummy',
+      provided_by     => 'heartbeat',
+    }
     cs_group { "g_${name}":
       ensure          => $ensure,
-      primitives      => ["p_target_${name}",],
+      primitives      => ["p_target_${name}",
+                          "p_dummy_${name}",],
     }
   }
 
