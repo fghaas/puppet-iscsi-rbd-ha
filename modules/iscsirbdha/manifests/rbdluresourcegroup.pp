@@ -1,6 +1,7 @@
 define iscsirbdha::rbdluresourcegroup (
   $volume = $name,
   $pool = 'rbd',
+  $user = undef,
   $iqn,
   $target_name,
   $lun = 0,
@@ -11,6 +12,7 @@ define iscsirbdha::rbdluresourcegroup (
     ensure => $ensure,
     volume => $volume,
     pool => $pool,
+    user => $user,
     monitor_interval => $monitor_interval,
   }
   iscsirbdha::luresource { "${pool}/${volume}":

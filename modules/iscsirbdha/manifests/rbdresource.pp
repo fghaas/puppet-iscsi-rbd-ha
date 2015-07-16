@@ -2,7 +2,8 @@ define iscsirbdha::rbdresource (
   $volume = $name,
   $pool = 'rbd',
   $ensure = 'present',
-  $monitor_interval = '10s'
+  $monitor_interval = '10s',
+  $user = undef
 ) {
   cs_primitive { "p_rbd_${pool}_${volume}":
     ensure          => $ensure,
@@ -12,6 +13,7 @@ define iscsirbdha::rbdresource (
     parameters      => {
       'name' => $volume,
       'pool' => $pool,
+      'user' => $user,
     },
     operations      => {
       'monitor' => {
